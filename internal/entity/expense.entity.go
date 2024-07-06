@@ -11,9 +11,7 @@ type Expense struct {
 }
 
 func NewExpense(userID entity.ID, amount int, description string, category string) (*Expense, error) {
-	if err != nil {
-		return nil, err
-	}
+	
 	
 	return &Expense{
 		ID:         	entity.NewID(),
