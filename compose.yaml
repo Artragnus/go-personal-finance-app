@@ -1,0 +1,22 @@
+services:
+  db:
+    container_name: postgres-database
+    image: postgres:12-alpine
+    env_file:
+        - cmd/server/.env
+    environment:
+        POSTGRES_USER: "postgres" 
+        POSTGRES_PASSWORD: "postgres" 
+        POSTGRES_DB: "finance" 
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+#    volumes:
+#        - /tmp/database/postgres :/var/lib/postgresql/data
+
+

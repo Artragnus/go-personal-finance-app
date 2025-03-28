@@ -1,18 +1,24 @@
 package entity
 
 import (
-	"github.com/Artragnus/go-personal-finance-app/pkg/entity"
+	"time"
+
 	"golang.org/x/crypto/bcrypt"
+
+	"github.com/Artragnus/go-personal-finance-app/pkg/entity"
 )
 
 type User struct {
-	ID       entity.ID    `json:"id"`
-	Name     string    	  `json:"name"`
-	Password string       `json:"password"`
-	Email    string       `json:"-"`
+	ID        entity.ID `json:"id"`
+	Name      string    `json:"name"`
+	Password  string    `json:"password"`
+	Email     string    `json:"email"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Status    bool      `json:"status"`
 }
 
-func NewUser(name, password, email string)( *User, error) {
+func NewUser(name, password, email string) (*User, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
