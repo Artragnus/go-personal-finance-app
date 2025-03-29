@@ -6,6 +6,7 @@ type UserCreateRequest struct {
 	Email    string `json:"email"`
 }
 
-type UserCreateReponse struct {
-	Name string `json:"name"`
+type UserLoginRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }

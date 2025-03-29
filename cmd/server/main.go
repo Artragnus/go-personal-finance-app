@@ -30,11 +30,12 @@ func main() {
 	db.AutoMigrate(&entity.User{})
 
 	userDb := database.NewUser(db)
-	userHandler := handler.NewHandleUser(userDb)
+	userHandler := handler.NewHandleUser(userDb, config.JWTSecret)
 
 	e := echo.New()
 
 	e.POST("/user", userHandler.Create)
+	e.POST("/login", userHandler.Login)
 
 	err = e.Start(config.WebServerPort)
 	if err != nil {

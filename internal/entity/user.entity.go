@@ -28,6 +28,7 @@ func NewUser(name, password, email string) (*User, error) {
 		Name:     name,
 		Password: string(hash),
 		Email:    email,
+		Status:   true,
 	}, nil
 }
 
