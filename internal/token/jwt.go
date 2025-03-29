@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/labstack/echo/v4"
 
 	"github.com/Artragnus/go-personal-finance-app/internal/entity"
 	pkgEntity "github.com/Artragnus/go-personal-finance-app/pkg/entity"
@@ -31,4 +32,16 @@ func New(u entity.User, secret string) (string, error) {
 	}
 
 	return t, nil
+}
+
+func GetPayload(c echo.Context) *payload {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(*payload)
+
+	payload := &payload{
+		Email: claims.Email,
+		ID:    claims.ID,
+	}
+
+	return payload
 }

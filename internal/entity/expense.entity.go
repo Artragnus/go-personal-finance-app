@@ -1,26 +1,36 @@
 package entity
 
-import "github.com/Artragnus/go-personal-finance-app/pkg/entity"
+import (
+	"time"
+
+	"github.com/Artragnus/go-personal-finance-app/pkg/entity"
+)
 
 type Expense struct {
 	ID          entity.ID `json:"id"`
 	UserID      entity.ID `json:"user_id"`
-	Amount      int       `json:"amount"`
+	Amount      int64     `json:"amount"`
 	Description string    `json:"description"`
-	Category    string    `json:"category"`
+	CategoryID  int64     `json:"category"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	Status      bool      `json:"status"`
+	User        User
+	Category    CategoryExpense
 }
 
 func NewExpense(
 	userID entity.ID,
-	amount int,
+	amount int64,
 	description string,
-	category string,
+	categoryID int64,
 ) (*Expense, error) {
 	return &Expense{
 		ID:          entity.NewID(),
 		UserID:      userID,
 		Amount:      amount,
 		Description: description,
-		Category:    category,
+		CategoryID:  categoryID,
+		Status:      true,
 	}, nil
 }

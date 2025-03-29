@@ -9,6 +9,7 @@ import (
 	"github.com/Artragnus/go-personal-finance-app/internal/entity"
 	"github.com/Artragnus/go-personal-finance-app/internal/handler"
 	"github.com/Artragnus/go-personal-finance-app/internal/infra/database"
+	"github.com/Artragnus/go-personal-finance-app/internal/middleware"
 )
 
 func main() {
@@ -27,15 +28,28 @@ func main() {
 	)
 
 	db := database.New(dsn)
-	db.AutoMigrate(&entity.User{})
+	db.AutoMigrate(
+		&entity.User{},
+		entity.Expense{},
+		entity.CategoryExpense{},
+		entity.CategoryIncome{},
+	)
+
+	database.Seed(db)
 
 	userDb := database.NewUser(db)
 	userHandler := handler.NewHandleUser(userDb, config.JWTSecret)
+
+	expenseDb := database.NewExpense(db)
+	expenseHandler := handler.NewHandleExpense(expenseDb)
 
 	e := echo.New()
 
 	e.POST("/user", userHandler.Create)
 	e.POST("/login", userHandler.Login)
+
+	expense := e.Group("expense", middleware.User(config.JWTSecret))
+	expense.POST("", expenseHandler.Create)
 
 	err = e.Start(config.WebServerPort)
 	if err != nil {
