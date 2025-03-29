@@ -10,14 +10,14 @@ import (
 	pkgEntity "github.com/Artragnus/go-personal-finance-app/pkg/entity"
 )
 
-type payload struct {
+type Payload struct {
 	ID    pkgEntity.ID
 	Email string
 	jwt.RegisteredClaims
 }
 
 func New(u entity.User, secret string) (string, error) {
-	payload := &payload{
+	payload := &Payload{
 		u.ID,
 		u.Email,
 		jwt.RegisteredClaims{
@@ -34,11 +34,11 @@ func New(u entity.User, secret string) (string, error) {
 	return t, nil
 }
 
-func GetPayload(c echo.Context) *payload {
+func GetPayload(c echo.Context) Payload {
 	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*payload)
+	claims := user.Claims.(*Payload)
 
-	payload := &payload{
+	payload := Payload{
 		Email: claims.Email,
 		ID:    claims.ID,
 	}

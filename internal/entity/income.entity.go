@@ -7,7 +7,7 @@ import (
 	"github.com/Artragnus/go-personal-finance-app/pkg/entity"
 )
 
-type Expense struct {
+type Income struct {
 	ID          entity.ID `json:"id"`
 	UserID      entity.ID `json:"user_id"`
 	Amount      int64     `json:"amount"`
@@ -17,16 +17,16 @@ type Expense struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 	Status      bool      `json:"status"`
 	User        User
-	Category    CategoryExpense
+	Category    CategoryIncome
 }
 
-func NewExpense(
+func NewIncome(
 	userID entity.ID,
 	amount int64,
 	description string,
 	categoryID int64,
-) (*Expense, error) {
-	expense := &Expense{
+) (*Income, error) {
+	income := &Income{
 		ID:          entity.NewID(),
 		UserID:      userID,
 		Amount:      amount,
@@ -35,15 +35,15 @@ func NewExpense(
 		Status:      true,
 	}
 
-	if err := expense.Validate(); err != nil {
-		return expense, err
+	if err := income.Validate(); err != nil {
+		return income, err
 	}
 
-	return expense, nil
+	return income, nil
 }
 
-func (e *Expense) Validate() error {
-	if e.Amount < 1 {
+func (i *Income) Validate() error {
+	if i.Amount < 1 {
 		return errors.New("the amount should be more than 0")
 	}
 	return nil

@@ -6,13 +6,13 @@ import (
 	"github.com/Artragnus/go-personal-finance-app/pkg/entity"
 )
 
-type ExpenseCreateRequest struct {
+type IncomeCreateRequest struct {
 	Amount      int64  `json:"amount"`
 	Description string `json:"description"`
 	CategoryID  int64  `json:"category_id"`
 }
 
-type ExpenseCreateResponse struct {
+type IncomeCreateResponse struct {
 	ID          entity.ID `json:"id"`
 	UserID      entity.ID `json:"user_id"`
 	Amount      int64     `json:"amount"`

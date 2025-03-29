@@ -18,7 +18,9 @@ func NewExpense(db *gorm.DB) *Expense {
 	}
 }
 
-func (e *Expense) Create(expense *entity.Expense) (dto.ExpenseCreateResponse, error) {
+func (e *Expense) Create(
+	expense *entity.Expense,
+) (dto.ExpenseCreateResponse, error) {
 	var res dto.ExpenseCreateResponse
 	if err := e.DB.Create(&expense).Clauses(clause.Returning{}).Scan(&res).Error; err != nil {
 		return res, err

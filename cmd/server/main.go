@@ -31,6 +31,7 @@ func main() {
 	db.AutoMigrate(
 		&entity.User{},
 		entity.Expense{},
+		entity.Income{},
 		entity.CategoryExpense{},
 		entity.CategoryIncome{},
 	)
@@ -43,13 +44,21 @@ func main() {
 	expenseDb := database.NewExpense(db)
 	expenseHandler := handler.NewHandleExpense(expenseDb)
 
+	incomeDb := database.NewIncome(db)
+	incomeHandler := handler.NewHandleIncome(incomeDb)
+
 	e := echo.New()
 
 	e.POST("/user", userHandler.Create)
 	e.POST("/login", userHandler.Login)
 
-	expense := e.Group("expense", middleware.User(config.JWTSecret))
+	userMiddleware := middleware.User(config.JWTSecret)
+
+	expense := e.Group("expense", userMiddleware)
 	expense.POST("", expenseHandler.Create)
+
+	income := e.Group("income", userMiddleware)
+	income.POST("", incomeHandler.Create)
 
 	err = e.Start(config.WebServerPort)
 	if err != nil {

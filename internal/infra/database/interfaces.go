@@ -13,3 +13,7 @@ type UserInterface interface {
 type ExpenseInterface interface {
 	Create(expense *entity.Expense) (dto.ExpenseCreateResponse, error)
 }
+
+type IncomeInterface interface {
+	Create(income *entity.Income) (dto.IncomeCreateResponse, error)
+}

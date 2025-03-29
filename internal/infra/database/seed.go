@@ -9,6 +9,39 @@ import (
 )
 
 func Seed(db *gorm.DB) {
+	categoryIncomes := []entity.CategoryIncome{
+		{ID: 1, Description: "Investimentos"},
+		{ID: 2, Description: "Outros"},
+		{ID: 3, Description: "Prêmio"},
+		{ID: 4, Description: "Presente"},
+		{ID: 5, Description: "Sálario"},
+	}
+
+	var categoryIncomesCount int64
+
+	if err := db.Model(entity.CategoryIncome{}).Count(&categoryIncomesCount).Error; err != nil {
+		log.Println("error to get category incomes")
+	}
+
+	switch categoryIncomesCount {
+	default:
+		for i := categoryIncomesCount; int(i) < len(categoryIncomes); i++ {
+			if err := db.Create(categoryIncomes[i]).Error; err != nil {
+				log.Println("error to seed category incomes")
+			}
+		}
+	case 0:
+		{
+			if err := db.Create(&categoryIncomes).Error; err != nil {
+				log.Println("error to seed category incomes")
+			}
+		}
+	case int64(len(categoryIncomes)):
+		{
+			return
+		}
+	}
+
 	categoryExpenses := []entity.CategoryExpense{
 		{ID: 1, Description: "Casa"},
 		{ID: 2, Description: "Educação"},
