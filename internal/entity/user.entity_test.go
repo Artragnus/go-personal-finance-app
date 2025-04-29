@@ -14,7 +14,7 @@ func TestNewUser(t *testing.T) {
 	assert.NotEmpty(t, user.Password)
 	assert.Equal(t, "John Doe", user.Name)
 	assert.Equal(t, "teste@teste.com", user.Email)
-} 
+}
 
 func TestUser_ValidatePassword(t *testing.T) {
 	user, err := NewUser("John Doe", "password", "teste@teste.com")
@@ -22,5 +22,4 @@ func TestUser_ValidatePassword(t *testing.T) {
 	assert.True(t, user.ValidatePassword("password"))
 	assert.False(t, user.ValidatePassword("password123"))
 	assert.NotEqual(t, "password", user.Password)
-	
 }

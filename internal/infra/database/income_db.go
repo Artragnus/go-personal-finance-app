@@ -6,6 +6,7 @@ import (
 
 	"github.com/Artragnus/go-personal-finance-app/internal/dto"
 	"github.com/Artragnus/go-personal-finance-app/internal/entity"
+	"github.com/Artragnus/go-personal-finance-app/internal/token"
 )
 
 type Income struct {
@@ -25,5 +26,14 @@ func (i *Income) Create(
 	if err := i.DB.Create(&income).Clauses(clause.Returning{}).Scan(&res).Error; err != nil {
 		return res, err
 	}
+	return res, nil
+}
+
+func (i *Income) Get(payload token.Payload) ([]dto.IncomeResponse, error) {
+	var res []dto.IncomeResponse
+	if err := i.DB.Where("user_id = ?", payload.ID).Find(&[]entity.Income{}).Scan(&res).Error; err != nil {
+		return res, err
+	}
+
 	return res, nil
 }

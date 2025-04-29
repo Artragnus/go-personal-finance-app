@@ -47,8 +47,10 @@ func main() {
 	incomeDb := database.NewIncome(db)
 	incomeHandler := handler.NewHandleIncome(incomeDb)
 
-	e := echo.New()
+	categoryDb := database.NewCategory(db)
+	categoryHandler := handler.NewCategoryHandle(categoryDb)
 
+	e := echo.New()
 	e.POST("/user", userHandler.Create)
 	e.POST("/login", userHandler.Login)
 
@@ -56,9 +58,15 @@ func main() {
 
 	expense := e.Group("expense", userMiddleware)
 	expense.POST("", expenseHandler.Create)
+	expense.GET("", expenseHandler.Get)
 
 	income := e.Group("income", userMiddleware)
 	income.POST("", incomeHandler.Create)
+	income.GET("", incomeHandler.Get)
+
+	category := e.Group("category", userMiddleware)
+	category.GET("/income", categoryHandler.GetIncomeCategories)
+	category.GET("/expense", categoryHandler.GetExpenseCategories)
 
 	err = e.Start(config.WebServerPort)
 	if err != nil {

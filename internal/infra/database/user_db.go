@@ -23,5 +23,6 @@ func (u *User) GetByEmail(email string) (entity.User, error) {
 	if err := u.DB.Where("email = ?", email).First(&user).Error; err != nil {
 		return user, err
 	}
+
 	return user, nil
 }

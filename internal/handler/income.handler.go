@@ -48,3 +48,14 @@ func (h *HandleIncome) Create(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, res)
 }
+
+func (h *HandleIncome) Get(c echo.Context) error {
+	payload := token.GetPayload(c)
+
+	res, err := h.DB.Get(payload)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, "internal server error")
+	}
+
+	return c.JSON(http.StatusOK, res)
+}

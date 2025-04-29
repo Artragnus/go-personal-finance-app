@@ -20,3 +20,10 @@ type IncomeCreateResponse struct {
 	CategoryID  int64     `json:"category_id"`
 	CreatedAt   time.Time `json:"created_at"`
 }
+type IncomeResponse struct {
+	ID          entity.ID `json:"id"`
+	Amount      int64     `json:"amount"`
+	Description string    `json:"description"`
+	CategoryID  int64     `json:"category_id"`
+	CreatedAt   time.Time `json:"created_at"`
+}
